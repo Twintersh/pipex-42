@@ -1,6 +1,6 @@
 CC = gcc
-NAME = #insert
-SRC = $(wildcard src/*.c)
+NAME = pipex
+SRC = src/main.c
 OBJ=$(SRC:.c=.o)
 LFT = lib-twinters
 CFLAGS = -Werror -Wall
