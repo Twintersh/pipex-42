@@ -5,26 +5,54 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/09/15 15:04:46 by twinters          #+#    #+#             */
-/*   Updated: 2022/09/21 10:37:09 by twinters         ###   ########.fr       */
+/*   Created: 2022/09/23 11:24:55 by twinters          #+#    #+#             */
+/*   Updated: 2022/09/23 12:28:48 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
 # include <stdio.h>
 
-# define FILE1 argv[1]
-# define CMD1 argv[2]
-# define CMD2 argv[3]
-# define FILE2 argv[4]
+//creer un programme qui execute une commande puis affiche le pid
 
-int main(int argc, char **argv, char **envp)
+#include <sys/types.h>
+#include <sys/wait.h>
+
+int	main(int argc, char *argv[], char *env[])
 {
-	int fd;
+	pid_t	pid;
+	int		status;
 
-	// if (argc != 5)
-	// 	return (0);
-	fd = open(FILE1, O_WRONLY);
-	write(fd, "yolo\n", 5);
+	if (argc > 1)
+	{
+		pid = fork();
+		if (pid == -1)
+		{
+			perror("fork");
+			return (1);
+		}
+		else if (pid == 0)
+		{
+			if (execve(argv[1], argv + 1, env) == -1)
+				perror("execve");
+			return (1);
+		}
+			wait(&status);
+			printf("Status = %d\n", status);
+		}
+	printf("My pid is: %d\n", getpid());
 	return (0);
 }
+
+// int main(int argc, char **argv, char **envp)
+// {
+// 	pid_t	pid1;
+
+// 	pid1 = fork();
+// 	if (pid1 == -1)
+// 			return (1);
+// 	else if (pid1 == 0)
+// 		printf("voici mon pid : %d\n", getpid());
+// 	else
+// 		execve(argv[1], argv + 1, envp);
+// }
