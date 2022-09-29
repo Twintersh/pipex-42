@@ -6,53 +6,82 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:24:55 by twinters          #+#    #+#             */
-/*   Updated: 2022/09/23 12:28:48 by twinters         ###   ########.fr       */
+/*   Updated: 2022/09/29 19:08:31 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../pipex.h"
-# include <stdio.h>
 
-//creer un programme qui execute une commande puis affiche le pid
+// rajouter de quoi free ft_split
 
-#include <sys/types.h>
-#include <sys/wait.h>
-
-int	main(int argc, char *argv[], char *env[])
+void	ft_str_free(char **str)
 {
-	pid_t	pid;
-	int		status;
+	int i;
 
-	if (argc > 1)
+	while(str[i])
 	{
-		pid = fork();
-		if (pid == -1)
-		{
-			perror("fork");
-			return (1);
-		}
-		else if (pid == 0)
-		{
-			if (execve(argv[1], argv + 1, env) == -1)
-				perror("execve");
-			return (1);
-		}
-			wait(&status);
-			printf("Status = %d\n", status);
-		}
-	printf("My pid is: %d\n", getpid());
-	return (0);
+		free(str[i]);
+		i++;
+	}
+	free(str);
 }
 
-// int main(int argc, char **argv, char **envp)
-// {
-// 	pid_t	pid1;
+void	error_msg(char *str)
+{
+	perror(str);
+	exit(EXIT_FAILURE);
+}
 
-// 	pid1 = fork();
-// 	if (pid1 == -1)
-// 			return (1);
-// 	else if (pid1 == 0)
-// 		printf("voici mon pid : %d\n", getpid());
-// 	else
-// 		execve(argv[1], argv + 1, envp);
-// }
+void	fst_command(t_data pipex)
+{
+	char	**cmd_args;
+
+	pipex.pid1 = fork();
+	if (pipex.pid1 == 0)
+	{
+		dup2(pipex.pipe[1], 1);
+		dup2(pipex.infile, 0);
+		cmd_args = ft_split(pipex.args[2], ' ');
+		execve(cmd_args[0], cmd_args, pipex.envp);
+		ft_str_free(cmd_args);
+		exit(EXIT_SUCCESS);
+	}
+	waitpid(pipex.pid1, NULL, 0);
+}
+void	snd_command(t_data pipex)
+{
+	char	**cmd_args;
+
+	pipex.pid2 = fork();
+	if (pipex.pid1 == 0)
+	{
+		dup2(pipex.outfile, 1);
+		dup2(pipex.pipe[0], 0);
+		cmd_args = ft_split(pipex.args[3], ' ');
+		execve(cmd_args[0], cmd_args, pipex.envp);
+		ft_str_free(cmd_args);
+		exit(EXIT_SUCCESS);
+	}
+	waitpid(pipex.pid2, NULL, 0);
+}
+
+int	main(int argc, char *argv[], char *envp[])
+{
+	t_data	pipex;
+
+	if (argc != 5)
+		error_msg("Error\n");
+	pipex.args = argv;
+	pipex.envp = envp;
+	pipex.infile = open(argv[1], O_RDONLY);
+	pipex.outfile = open(argv[4], O_WRONLY);
+	pipe(pipex.pipe);
+	if (pipex.infile < 0 || pipex.outfile < 0)
+		error_msg("Error\n");
+	fst_command(pipex);
+	snd_command(pipex);
+	close(pipex.infile);
+	close(pipex.outfile);
+
+	return (0);
+}
