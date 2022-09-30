@@ -1,9 +1,9 @@
 CC = gcc
 NAME = pipex
-SRC = src/main.c
+SRC = src/main.c src/pipex.c
 OBJ=$(SRC:.c=.o)
 LFT = lib-twinters
-CFLAGS = -Werror -Wall
+CFLAGS = -Werror -Wall -Wextra -g
 LFLAGS = L $(LFT)-lft
 
 all : $(NAME)
@@ -16,6 +16,8 @@ $(NAME) : $(OBJ)
 	@$(CC) $(CFLAGS) $(OBJ) -L $(LFT) -lft -o $(NAME)
 
 re : fclean all
+
+debug : all
 
 clean :
 	@rm -rf src/*.o
