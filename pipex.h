@@ -6,7 +6,7 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 15:06:03 by twinters          #+#    #+#             */
-/*   Updated: 2022/09/30 16:51:38 by twinters         ###   ########.fr       */
+/*   Updated: 2022/09/30 18:50:05 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <sys/wait.h>
 # include <stdio.h>
 
-# define PIPE_IN 0
-# define PIPE_OUT 1
+# define PIPE_IN 1
+# define PIPE_OUT 0
 # define CHILD 0
 
 typedef struct s_data
