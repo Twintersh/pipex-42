@@ -1,16 +1,14 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
+/*   split_path.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/13 16:45:16 by twinters          #+#    #+#             */
-/*   Updated: 2022/10/01 22:06:49 by twinters         ###   ########.fr       */
+/*   Created: 2022/10/02 10:04:09 by twinters          #+#    #+#             */
+/*   Updated: 2022/10/02 10:08:30 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "libft.h"
 
 static int	nbwords(char *s, char c)
 {
@@ -48,7 +46,7 @@ static char	**get_words(char **splited, char *s, char c, int i)
 				nbletters++;
 				i++;
 			}
-			splited[nbwords] = ft_calloc((nbletters + 1), sizeof(char));
+			splited[nbwords] = ft_calloc((nbletters + 2), sizeof(char));
 		}
 		if (!s[i])
 			return (splited);
@@ -72,7 +70,7 @@ static char	**set_words(char **splited, char *s, char c, int i)
 					|| (i > 0 && s[i - 1] == c)))
 				nbwords++;
 			nbletters = 0;
-			while (s[i] != c && s[i])
+			while (s [i] != c && s[i])
 			{
 				splited[nbwords][nbletters] = s[i];
 				nbletters++;

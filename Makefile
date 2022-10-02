@@ -1,6 +1,6 @@
 CC = gcc
 NAME = pipex
-SRC = src/main.c src/pipex.c
+SRC = src/main.c src/pipex.c src/access.c
 OBJ=$(SRC:.c=.o)
 LFT = lib-twinters
 CFLAGS = -Werror -Wall -Wextra -g

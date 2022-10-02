@@ -6,7 +6,7 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 15:06:03 by twinters          #+#    #+#             */
-/*   Updated: 2022/09/30 18:50:05 by twinters         ###   ########.fr       */
+/*   Updated: 2022/10/02 12:37:30 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,11 @@ void	ft_str_free(char **str);
 void	error_msg(char *str);
 void	fst_command(t_data *pipex);
 void	snd_command(t_data *pipex);
+
+// access.c
+
+// static char	*get_path(char **envp);
+// static char	*add_path(char *path, char *cmd);
+char	*get_cmd_path(char *cmd, char **envp);
 
 #endif

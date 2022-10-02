@@ -6,7 +6,7 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/30 16:01:53 by twinters          #+#    #+#             */
-/*   Updated: 2022/10/01 18:47:06 by twinters         ###   ########.fr       */
+/*   Updated: 2022/10/02 11:49:44 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,12 @@ void	error_msg(char *str)
 void	fst_command(t_data *pipex)
 {
 	char	**cmd_args;
+	char	*cmd_p;
 
 	cmd_args = ft_split(pipex->args[2], ' ');
+	cmd_p = get_cmd_path(cmd_args[0], pipex->envp);
 	pipex->pid1 = fork();
-	if (pipex->pid2 < 0)
+	if (pipex->pid1 < 0)
 		error_msg("Fork fst command error");
 	if (pipex->pid1 == CHILD)
 	{
@@ -66,18 +68,21 @@ void	fst_command(t_data *pipex)
 		close(pipex->pipe[PIPE_IN]);
 		close(pipex->pipe[PIPE_OUT]);
 		close(pipex->infile);
-		execve(cmd_args[0], cmd_args, pipex->envp);
+		execve(cmd_p, cmd_args, pipex->envp);
 		exit(EXIT_SUCCESS);
 	}
 	waitpid(pipex->pid1, NULL, 0);
+	free(cmd_p);
 	ft_str_free(cmd_args);
 }
 
 void	snd_command(t_data *pipex)
 {
 	char	**cmd_args;
+	char	*cmd_p;
 
 	cmd_args = ft_split(pipex->args[3], ' ');
+	cmd_p = get_cmd_path(cmd_args[0], pipex->envp);
 	pipex->pid2 = fork();
 	if (pipex->pid2 < 0)
 		error_msg("Fork snd command error");
@@ -89,8 +94,9 @@ void	snd_command(t_data *pipex)
 		close(pipex->pipe[PIPE_OUT]);
 		close(pipex->pipe[PIPE_IN]);
 		close(pipex->outfile);
-		execve(cmd_args[0], cmd_args, pipex->envp);
+		execve(cmd_p, cmd_args, pipex->envp);
 		exit(EXIT_SUCCESS);
 	}
+	free(cmd_p);
 	ft_str_free(cmd_args);
 }
