@@ -6,7 +6,7 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/23 11:24:55 by twinters          #+#    #+#             */
-/*   Updated: 2022/10/02 12:35:29 by twinters         ###   ########.fr       */
+/*   Updated: 2022/10/02 14:01:51 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	main(int argc, char *argv[], char *envp[])
 		error_msg("Invalid number of arguments\n");
 	pipex = init_pipex(argv, envp);
 	pipex->infile = open(argv[1], O_RDONLY);
-	pipex->outfile = open(argv[4], O_CREAT ^ O_WRONLY, 0664);
+	pipex->outfile = open(argv[4], O_TRUNC ^ O_CREAT ^ O_WRONLY, 0664);
 	if (pipex->infile < 0 || pipex->outfile < 0)
 		error_msg("File descriptor error\n");
 	pipe_value = pipe(pipex->pipe);
