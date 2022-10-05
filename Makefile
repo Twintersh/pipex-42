@@ -2,7 +2,7 @@ CC = gcc
 NAME = pipex
 SRC = src/main.c src/pipex.c src/access.c
 OBJ=$(SRC:.c=.o)
-LFT = lib-twinters
+LFT = libft
 CFLAGS = -Werror -Wall -Wextra -g
 LFLAGS = L $(LFT)-lft
 
@@ -26,3 +26,5 @@ clean :
 
 fclean : clean
 	@rm -rf $(NAME)
+
+.PHONY : fclean all clean debug re

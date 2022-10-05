@@ -6,14 +6,14 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 15:06:03 by twinters          #+#    #+#             */
-/*   Updated: 2022/10/05 10:49:53 by twinters         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:42:46 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PIPEX_H
 # define PIPEX_H
 
-# include "lib-twinters/libft.h"
+# include "libft/libft.h"
 # include <sys/types.h>
 # include <sys/wait.h>
 
