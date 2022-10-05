@@ -6,7 +6,7 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/01 21:48:24 by twinters          #+#    #+#             */
-/*   Updated: 2022/10/04 14:00:36 by twinters         ###   ########.fr       */
+/*   Updated: 2022/10/05 12:03:09 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*add_path(char *path, char *cmd)
 	return (cmd_p);
 }
 
-char	*get_cmd_path(char *cmd, char **envp, t_data *pipex)
+char	*get_cmd_path(char *cmd, char **envp)
 {
 	char	*cmd_p;
 	char	**path;
@@ -41,22 +41,21 @@ char	*get_cmd_path(char *cmd, char **envp, t_data *pipex)
 
 	i = 0;
 	if (*cmd == '/')
-		error_msg("Bad command\n", pipex);
+		return (NULL);
 	if (!access(cmd, F_OK))
 		return (ft_strjoin("", cmd));
 	path = ft_split(get_path(envp) + 5, ':');
 	cmd_p = add_path(path[i], cmd);
-	while (access(cmd_p, F_OK))
+	while (path[i] && access(cmd_p, F_OK))
 	{
-		i++;
 		free(cmd_p);
-		if (path[i])
-			cmd_p = add_path(path[i], cmd);
-		else
-		{
-			ft_str_free(path);
-			error_msg("Bad command\n", pipex);
-		}
+		cmd_p = add_path(path[i], cmd);
+		i++;
+	}
+	if (path[i] == NULL)
+	{
+		free(cmd_p);
+		cmd_p = NULL;
 	}
 	ft_str_free(path);
 	return (cmd_p);

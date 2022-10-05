@@ -6,7 +6,7 @@
 /*   By: twinters <twinters@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/15 15:06:03 by twinters          #+#    #+#             */
-/*   Updated: 2022/10/04 14:58:52 by twinters         ###   ########.fr       */
+/*   Updated: 2022/10/05 10:49:53 by twinters         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,52 +16,47 @@
 # include "lib-twinters/libft.h"
 # include <sys/types.h>
 # include <sys/wait.h>
-# include <stdio.h>
 
 # define PIPE_IN 1
 # define PIPE_OUT 0
 # define CHILD 0
 
+typedef struct s_commands
+{
+	char	**cmd1;
+	char	**cmd2;
+}t_commands;
+
 typedef struct s_data
 {
-	int		infile;
-	int		outfile;
-	int		pipe[2];
-	pid_t	pid1;
-	pid_t	pid2;
-	char	**args;
-	char	**envp;
-	char	**cmd_args;
+	int					infile;
+	int					outfile;
+	int					pipe[2];
+	char				**args;
+	char				**envp;
+	struct s_commands	*c;	
 }t_data;
 
 // main.c
 
+//static void ft_close(t_data *pipex);
+//static void split_cmds(t_data *pipex);
+void	check_errors(t_data *pipex, int pipe_value);
+void	msg_exit(char *str);
 int		main(int argc, char **argv, char **envp);
 
 // pipex.c
 
-# include "lib-twinters/libft.h"
-# include <sys/types.h>
-# include <sys/wait.h>
-# include <stdio.h>
-
-# define PIPE_IN 1
-# define PIPE_OUT 0
-# define CHILD 0
-
-typedef struct s_data
-{
-	int		infile;
-	int		outfile;
-	int		pipe[2];
-	pid_t	pid1;
-	pid_t	pid2;ipex);
-void	snd_command(t_data *pipex);
+t_data	*init_pipex(char **argv, char **envp);
+void	ft_str_free(char **str);
+void	error_msg(char *str, t_data *pipex, int exit);
+void	fst_command(t_data *pipex, char *cmd_p);
+void	snd_command(t_data *pipex, char *cmd_p);
 
 // access.c
 
 // static char	*get_path(char **envp);
 // static char	*add_path(char *path, char *cmd);
-char	*get_cmd_path(char *cmd, char **envp, t_data *pipex);
+char	*get_cmd_path(char *cmd, char **envp);
 
 #endif
